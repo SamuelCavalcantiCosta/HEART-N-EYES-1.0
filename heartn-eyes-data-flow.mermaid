@@ -1,0 +1,83 @@
+flowchart TB
+    classDef hardware fill:#f96,stroke:#333,stroke-width:2px
+    classDef software fill:#69f,stroke:#333,stroke-width:2px
+    classDef storage fill:#5d5,stroke:#333,stroke-width:2px
+    classDef external fill:#d5d,stroke:#333,stroke-width:2px
+    
+    %% Hardware Components
+    Lens[Smart Contact Lens]:::hardware
+    Mobile[Mobile Device]:::hardware
+    
+    %% Software Components
+    App[Companion App]:::software
+    API[Backend API]:::software
+    StreamEngine[Streaming Engine]:::software
+    Processing[Video Processing]:::software
+    Auth[Authentication Service]:::software
+    Analytics[Analytics Service]:::software
+    
+    %% Storage Components
+    UserDB[(User Database)]:::storage
+    VideoStore[(Video Storage)]:::storage
+    MetadataDB[(Metadata DB)]:::storage
+    
+    %% External Services
+    CDN{Content Delivery Network}:::external
+    YouTube{YouTube}:::external
+    Twitch{Twitch}:::external
+    
+    %% Data Flow
+    Lens -->|Video Data| Mobile
+    Lens -->|Status Updates| Mobile
+    Mobile -->|Control Commands| Lens
+    
+    Mobile <-->|BLE Protocol| App
+    App -->|Video Stream| API
+    App -->|User Authentication| Auth
+    App -->|Stream Controls| API
+    App <--|Status Updates| API
+    App <--|Analytics Data| Analytics
+    
+    Auth <-->|Verify Credentials| UserDB
+    API -->|Raw Video| StreamEngine
+    API -->|User Requests| Processing
+    API <--|Processed Video| Processing
+    
+    StreamEngine -->|Live Stream| CDN
+    StreamEngine -->|Platform Integration| YouTube
+    StreamEngine -->|Platform Integration| Twitch
+    
+    Processing -->|Archived Video| VideoStore
+    Processing -->|Video Metadata| MetadataDB
+    
+    Analytics <-->|Usage Statistics| MetadataDB
+    Analytics <-->|User Data| UserDB
+    
+    CDN -->|Public Content| Internet((Internet))
+    YouTube -->|Live Broadcast| Internet
+    Twitch -->|Live Broadcast| Internet
+    
+    %% Subgraphs for organization
+    subgraph User Environment
+        Lens
+        Mobile
+        App
+    end
+    
+    subgraph Cloud Infrastructure
+        API
+        Auth
+        StreamEngine
+        Processing
+        Analytics
+        UserDB
+        VideoStore
+        MetadataDB
+    end
+    
+    subgraph External Platforms
+        CDN
+        YouTube
+        Twitch
+        Internet
+    end
