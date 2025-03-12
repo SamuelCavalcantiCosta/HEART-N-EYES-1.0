@@ -1,4 +1,4 @@
-# HEART'N'EYES
+# HEART'N'EYES 1.0
 
 ## Vision
 HEART'N'EYES aims to revolutionize first-person video capture and streaming through smart contact lens technology, allowing users to seamlessly record and share their visual perspective.
